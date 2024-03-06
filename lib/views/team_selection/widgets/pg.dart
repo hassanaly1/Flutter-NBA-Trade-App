@@ -39,16 +39,23 @@ class PGView extends StatelessWidget {
                     textColor: MyColorHelper.primary,
                     textAlign: TextAlign.start,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return NBAPlayerCard(
-                        playerModel: players[index],
-                      );
-                    },
-                  )
+                  players.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: players.length,
+                          itemBuilder: (context, index) {
+                            return NBAPlayerCard(
+                              playerModel: players[index],
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: CustomTextWidget(
+                          text: 'No Match Found',
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w400,
+                        ))
                 ],
               );
             },

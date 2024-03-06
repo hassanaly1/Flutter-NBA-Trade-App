@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
@@ -17,20 +18,22 @@ class CustomSearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
-        height: context.height * 0.05,
+        height: context.height * 0.08,
         child: TextFormField(
           onChanged: onChanged,
-          decoration: const InputDecoration(
-            label: CustomTextWidget(text: 'Search by Name'),
-            suffixIcon: Icon(
-              CupertinoIcons.search,
-              color: MyColorHelper.primary,
-            ),
+          decoration: InputDecoration(
+            fillColor: MyColorHelper.primaryBackground,
+            filled: true,
+            label: const CustomTextWidget(text: 'Search by Name'),
+            suffixIcon:
+                const Icon(CupertinoIcons.search, color: MyColorHelper.primary),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: MyColorHelper.primary)),
+                borderSide: const BorderSide(color: MyColorHelper.primary),
+                borderRadius: BorderRadius.circular(12.0)),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyColorHelper.primary)),
-            labelStyle: TextStyle(
+                borderSide: const BorderSide(color: MyColorHelper.primary),
+                borderRadius: BorderRadius.circular(12.0)),
+            labelStyle: const TextStyle(
               fontSize: 14.0,
               color: MyColorHelper.primary,
               fontWeight: FontWeight.w200,

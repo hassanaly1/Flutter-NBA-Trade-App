@@ -16,7 +16,7 @@ class DashboardScreen extends StatelessWidget {
     {
       "text": "Team Selection",
       "icon": Symbols.diversity_2,
-      "onTap": () => Get.to(() => const TeamSelection())
+      "onTap": () => Get.to(() => TeamSelection())
     },
     {"text": "Trade", "icon": Symbols.send_time_extension, "onTap": () {}},
     {"text": "NBA Contacts", "icon": Symbols.diversity_3, "onTap": () {}},

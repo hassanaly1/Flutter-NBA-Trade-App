@@ -16,15 +16,20 @@ class UniversalController extends GetxController {
   ScrollController scrollController = ScrollController();
 
   List<MyTeamModel> teams = [];
-  var players = <MyPlayerModel>[].obs, draftPlayers = <MyPlayerModel>[].obs;
+  var players = <MyPlayerModel>[].obs;
+  var draftPlayers = <MyPlayerModel>[].obs;
+  final filteredPlayers = <MyPlayerModel>[].obs;
   List<PlayerStats> playersStatistics = [];
 
   late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
   @override
-  void onInit() {
+  void onInit() async {
     initConnectivity();
-    fetchPlayerList();
+    await fetchPlayerList();
+    filteredPlayers.assignAll(players);
+    debugPrint('players Length: ${players.length}');
+    debugPrint('filteredPlayers: ${filteredPlayers.length}');
     scrollController.addListener(_scrollListener);
     super.onInit();
   }
@@ -66,6 +71,34 @@ class UniversalController extends GetxController {
       rethrow;
     }
   }
+
+  //For Searching Players.
+  void filterPlayers(String query) {
+    debugPrint('filter method called with query: $query');
+
+    List<String> searchTerms = query.toLowerCase().split(' ');
+
+    List<MyPlayerModel> filteredList = players.where((player) {
+      String fullName = (player.firstName! + player.lastName!).toLowerCase();
+      return searchTerms.every((term) => fullName.contains(term));
+    }).toList();
+
+    debugPrint('Filtered list: $filteredList');
+
+    filteredPlayers.assignAll(filteredList);
+  }
+
+  //This Method didn't handle spaces.
+  // void filterPlayers(String query) {
+  //   debugPrint('filter method called with query: $query');
+  //   List<MyPlayerModel> filteredList = players
+  //       .where((player) => (player.firstName! + player.lastName!)
+  //           .toLowerCase()
+  //           .contains(query.toLowerCase()))
+  //       .toList();
+  //   debugPrint('Filtered list: $filteredList');
+  //   filteredPlayers.assignAll(filteredList);
+  // }
 
   //Add Players to Draftboard
   void addPlayersToDraftBoard(MyPlayerModel playerModel) {

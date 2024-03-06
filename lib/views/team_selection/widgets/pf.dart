@@ -42,7 +42,7 @@ class PFView extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 10,
+                    itemCount: players.length,
                     itemBuilder: (context, index) {
                       return NBAPlayerCard(
                         playerModel: players[index],

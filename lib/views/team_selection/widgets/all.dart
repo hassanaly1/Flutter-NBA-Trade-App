@@ -31,9 +31,8 @@ class AllView extends StatelessWidget {
                 ),
               );
             }
-            List<MyPlayerModel> visiblePlayers = controller.players
-                .take(controller.visibleItemCount.value)
-                .toList();
+            List<MyPlayerModel> visiblePlayers =
+                players.take(controller.visibleItemCount.value).toList();
 
             return ListView(
               physics: const NeverScrollableScrollPhysics(),

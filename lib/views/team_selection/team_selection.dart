@@ -9,42 +9,44 @@ import 'package:nba_trade/views/team_selection/draftboard_view.dart';
 import 'package:nba_trade/views/team_selection/team_view.dart';
 
 class TeamSelection extends StatelessWidget {
-  const TeamSelection({super.key});
-
+  TeamSelection({super.key});
+  final UniversalController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final UniversalController controller = Get.find();
     return SafeArea(
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
           backgroundColor: Colors.grey.shade300,
-          body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  backgroundColor: Colors.transparent,
-                  forceMaterialTransparency: true,
-                  flexibleSpace: ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      const CustomAppBar(title: 'NBA Team Selection'),
-                      SizedBox(height: context.height * 0.03),
-                      //Tabbar
-                    ],
+          body: InkWell(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    backgroundColor: Colors.transparent,
+                    forceMaterialTransparency: true,
+                    flexibleSpace: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        const CustomAppBar(title: 'NBA Team Selection'),
+                        SizedBox(height: context.height * 0.03),
+                        //Tabbar
+                      ],
+                    ),
+                    bottom: TeamSelectionTabbar(context: context),
                   ),
-                  bottom: TeamSelectionTabbar(context: context),
-                ),
-              ];
-            },
-            body: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Team(players: controller.players),
-                Draftboard(),
-              ],
+                ];
+              },
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  Team(players: controller.players),
+                  Draftboard(),
+                ],
+              ),
             ),
           ),
         ),
