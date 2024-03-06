@@ -10,13 +10,13 @@ class CustomTextWidget extends StatelessWidget {
   final FontStyle? fontStyle;
   const CustomTextWidget(
       {super.key,
-        required this.text,
-        this.fontWeight,
-        this.textColor,
-        this.fontSize,
-        this.textAlign,
-        this.fontStyle,
-        this.maxLines});
+      required this.text,
+      this.fontWeight,
+      this.textColor,
+      this.fontSize,
+      this.textAlign,
+      this.fontStyle,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,11 @@ class CustomTextWidget extends StatelessWidget {
           color: textColor ?? Colors.black,
           fontWeight: fontWeight ?? FontWeight.normal,
           fontSize: fontSize ?? 12.0,
-          fontFamily: 'Nunito',
+          fontFamily: 'Roboto',
           fontStyle: fontStyle ?? FontStyle.normal
 
-        // overflow: TextOverflow.ellipsis,
-      ),
+          // overflow: TextOverflow.ellipsis,
+          ),
       softWrap: true,
       maxLines: maxLines ?? 1,
       overflow: TextOverflow.ellipsis,

@@ -5,8 +5,8 @@ import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/views/auth/widgets/auth_header.dart';
 
-class MailVerificationScreen extends StatelessWidget {
-  const MailVerificationScreen({super.key});
+class EmailVerificationScreen extends StatelessWidget {
+  const EmailVerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

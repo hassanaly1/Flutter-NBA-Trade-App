@@ -5,7 +5,7 @@ import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/helper/textfield.dart';
 import 'package:nba_trade/views/auth/login_screen.dart';
-import 'package:nba_trade/views/auth/widgets/app_validator.dart';
+import 'package:nba_trade/helper/app_validator.dart';
 import 'package:nba_trade/views/auth/widgets/auth_header.dart';
 
 class RegisterScreen extends StatelessWidget {

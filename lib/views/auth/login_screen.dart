@@ -7,7 +7,7 @@ import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/helper/textfield.dart';
 import 'package:nba_trade/views/auth/forget_password.dart';
 import 'package:nba_trade/views/auth/register_screen.dart';
-import 'package:nba_trade/views/auth/widgets/app_validator.dart';
+import 'package:nba_trade/helper/app_validator.dart';
 import 'package:nba_trade/views/auth/widgets/auth_header.dart';
 import 'package:nba_trade/views/dashboard/dashboard.dart';
 

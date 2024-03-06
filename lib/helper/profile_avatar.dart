@@ -8,8 +8,9 @@ class ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const InkWell(
-      //onTap: () => Get.to(ProfileScreen()),
-      child: CircleAvatar(backgroundColor: Colors.red),
-    );
+        //onTap: () => Get.to(ProfileScreen()),
+        child: CircleAvatar(
+      backgroundImage: AssetImage('assets/images/user2.jpg'),
+    ));
   }
 }
