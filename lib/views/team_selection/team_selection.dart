@@ -27,15 +27,8 @@ class TeamSelection extends StatelessWidget {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     forceMaterialTransparency: true,
-                    flexibleSpace: ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
+                    flexibleSpace:
                         const CustomAppBar(title: 'NBA Team Selection'),
-                        SizedBox(height: context.height * 0.03),
-                        //Tabbar
-                      ],
-                    ),
                     bottom: TeamSelectionTabbar(context: context),
                   ),
                 ];

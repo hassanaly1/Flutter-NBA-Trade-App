@@ -101,7 +101,7 @@ class MyPlayerModel {
     this.nbaDotComPlayerId,
   });
 
-  static MyPlayerModel fromJson(Map<String, dynamic> json) => MyPlayerModel(
+  static MyPlayerModel fromMap(Map<String, dynamic> json) => MyPlayerModel(
         playerId: json["PlayerID"],
         sportsDataId: json["SportsDataID"],
         status: json["Status"],

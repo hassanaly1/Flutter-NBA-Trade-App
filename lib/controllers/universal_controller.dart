@@ -15,11 +15,12 @@ class UniversalController extends GetxController {
   var visibleItemCount = 20.obs;
   ScrollController scrollController = ScrollController();
 
-  List<MyTeamModel> teams = [];
   var players = <MyPlayerModel>[].obs;
   var draftPlayers = <MyPlayerModel>[].obs;
   final filteredPlayers = <MyPlayerModel>[].obs;
   List<PlayerStats> playersStatistics = [];
+  var teams = <MyTeamModel>[].obs;
+  var selectedTeams = <MyTeamModel>[].obs;
 
   late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
@@ -27,9 +28,12 @@ class UniversalController extends GetxController {
   void onInit() async {
     initConnectivity();
     await fetchPlayerList();
+    await fetchAllTeams();
+
     filteredPlayers.assignAll(players);
     debugPrint('players Length: ${players.length}');
     debugPrint('filteredPlayers: ${filteredPlayers.length}');
+    debugPrint('Teams Length: ${teams.length}');
     scrollController.addListener(_scrollListener);
     super.onInit();
   }
@@ -54,10 +58,9 @@ class UniversalController extends GetxController {
     });
   }
 
-  //Fetching Data from API.
   Future<List<MyPlayerModel>> fetchPlayerList() async {
     try {
-      debugPrint('FETCH Player1');
+      debugPrint('Fetching Players');
       players.value = await ApiService.fetchAllPlayers();
       isError.value = false;
       return players;
@@ -66,8 +69,21 @@ class UniversalController extends GetxController {
       isError.value = true;
       ToastMessage.showToastMessage(
           message: 'Network Error.', backgroundColor: Colors.red);
-      // AppHelperFunctions.showSnackBar(
-      //     message: 'Network Error', backgroundColor: Colors.red);
+      rethrow;
+    }
+  }
+
+  Future<List<MyTeamModel>> fetchAllTeams() async {
+    try {
+      debugPrint('Fetching Teams');
+      teams.value = await ApiService.fetchAllTeams();
+      isError.value = false;
+      return teams;
+    } catch (error) {
+      debugPrint('Error fetching teams list: $error');
+      isError.value = true;
+      ToastMessage.showToastMessage(
+          message: 'Network Error.', backgroundColor: Colors.red);
       rethrow;
     }
   }
@@ -75,7 +91,6 @@ class UniversalController extends GetxController {
   //For Searching Players.
   void filterPlayers(String query) {
     debugPrint('filter method called with query: $query');
-
     List<String> searchTerms = query.toLowerCase().split(' ');
 
     List<MyPlayerModel> filteredList = players.where((player) {
@@ -88,25 +103,13 @@ class UniversalController extends GetxController {
     filteredPlayers.assignAll(filteredList);
   }
 
-  //This Method didn't handle spaces.
-  // void filterPlayers(String query) {
-  //   debugPrint('filter method called with query: $query');
-  //   List<MyPlayerModel> filteredList = players
-  //       .where((player) => (player.firstName! + player.lastName!)
-  //           .toLowerCase()
-  //           .contains(query.toLowerCase()))
-  //       .toList();
-  //   debugPrint('Filtered list: $filteredList');
-  //   filteredPlayers.assignAll(filteredList);
-  // }
-
   //Add Players to Draftboard
   void addPlayersToDraftBoard(MyPlayerModel playerModel) {
     draftPlayers.add(playerModel);
     debugPrint('${draftPlayers.length}');
   }
 
-  //Remove Players to Draftboard
+  //Remove Players from Draftboard
   void removePlayersToDraftBoard(MyPlayerModel playerModel) {
     draftPlayers.remove(playerModel);
     debugPrint('${draftPlayers.length}');

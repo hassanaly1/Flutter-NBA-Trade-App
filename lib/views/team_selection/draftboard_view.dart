@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/profile_avatar.dart';
-import 'package:nba_trade/helper/searchbar.dart';
 import 'package:nba_trade/helper/text.dart';
-import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/views/team_selection/widgets/player_card.dart';
 
 class Draftboard extends StatelessWidget {

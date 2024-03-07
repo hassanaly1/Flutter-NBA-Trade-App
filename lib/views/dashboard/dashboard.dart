@@ -8,6 +8,7 @@ import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
+import 'package:nba_trade/views/trade/trade.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
@@ -18,7 +19,11 @@ class DashboardScreen extends StatelessWidget {
       "icon": Symbols.diversity_2,
       "onTap": () => Get.to(() => TeamSelection())
     },
-    {"text": "Trade", "icon": Symbols.send_time_extension, "onTap": () {}},
+    {
+      "text": "Trade",
+      "icon": Symbols.send_time_extension,
+      "onTap": () => Get.to(() => TradeScreen())
+    },
     {"text": "NBA Contacts", "icon": Symbols.diversity_3, "onTap": () {}},
     {"text": "Approval", "icon": Symbols.order_approve, "onTap": () {}},
     {"text": "Compare Players", "icon": Symbols.compare_arrows, "onTap": () {}},

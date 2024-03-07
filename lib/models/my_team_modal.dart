@@ -13,7 +13,7 @@ class MyTeamModel {
       headCoach;
 
   bool? active;
-  int? teamId, leagueID, stadiumID, globalTeamID, nbaDotComTeamIDl;
+  int? teamId, leagueID, stadiumID, globalTeamID, nbaDotComTeamID;
 
   MyTeamModel(
       {this.key,
@@ -29,7 +29,7 @@ class MyTeamModel {
       this.wikipediaWordMarkUrl,
       this.headCoach,
       this.active,
-      this.nbaDotComTeamIDl,
+      this.nbaDotComTeamID,
       this.globalTeamID,
       this.stadiumID,
       this.leagueID,
@@ -50,7 +50,7 @@ class MyTeamModel {
         wikipediaLogoUrl: map['WikipediaLogoUrl'],
         headCoach: map['HeadCoach'],
         active: map['Active'],
-        nbaDotComTeamIDl: map['NbaDotComTeamID'],
+        nbaDotComTeamID: map['NbaDotComTeamID'],
         globalTeamID: map['GlobalTeamID'],
         stadiumID: map['StadiumID'],
         leagueID: map['LeagueID'],
@@ -70,7 +70,7 @@ class MyTeamModel {
         'wikipediaWordMarkUrl': wikipediaWordMarkUrl,
         'headCoach': headCoach,
         'active': active,
-        'nbaDotComTeamIDl': nbaDotComTeamIDl,
+        'nbaDotComTeamID': nbaDotComTeamID,
         'globalTeamID': globalTeamID,
         'stadiumID': stadiumID,
         'leagueID': leagueID,
