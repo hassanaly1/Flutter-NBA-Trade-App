@@ -25,10 +25,7 @@ class Team extends StatelessWidget {
         body: DefaultTabController(
           length: 6,
           child: Container(
-            decoration: BoxDecoration(
-              color: MyColorHelper.primaryBackground,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
+            decoration: const BoxDecoration(color: MyColorHelper.white),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -38,7 +35,7 @@ class Team extends StatelessWidget {
                     elevation: 5.0,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 219, 219, 255),
+                        color: MyColorHelper.primaryBackground,
                         border: Border.all(color: Colors.black12),
                       ),
                       child: const TabBar(

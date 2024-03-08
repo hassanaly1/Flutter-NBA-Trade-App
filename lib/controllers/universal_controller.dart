@@ -3,24 +3,27 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/api/api_service.dart';
+import 'package:nba_trade/controllers/trade_controller.dart';
 import 'package:nba_trade/helper/toast.dart';
-import 'package:nba_trade/models/my_team_modal.dart';
+import 'package:nba_trade/models/my_team_model.dart';
 import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/models/player_stats_model.dart';
 
 class UniversalController extends GetxController {
   var isLoading = false.obs;
   var isError = false.obs;
+  var isApiDataCalled = false.obs;
 
   var visibleItemCount = 20.obs;
   ScrollController scrollController = ScrollController();
 
   var players = <MyPlayerModel>[].obs;
-  var draftPlayers = <MyPlayerModel>[].obs;
+
   final filteredPlayers = <MyPlayerModel>[].obs;
   List<PlayerStats> playersStatistics = [];
+
   var teams = <MyTeamModel>[].obs;
-  var selectedTeams = <MyTeamModel>[].obs;
+  var selectedTeamPlayers = <MyPlayerModel>[].obs;
 
   late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
@@ -29,14 +32,28 @@ class UniversalController extends GetxController {
     initConnectivity();
     await fetchPlayerList();
     await fetchAllTeams();
+    isApiDataCalled.value = true;
+    debugPrint('All Apis called: ${isApiDataCalled.value}');
+    selectedTeamPlayers.assignAll(players);
+    sendDataToTradeController(TradeController());
 
     filteredPlayers.assignAll(players);
     debugPrint('players Length: ${players.length}');
     debugPrint('filteredPlayers: ${filteredPlayers.length}');
-    debugPrint('Teams Length: ${teams.length}');
+    debugPrint('Total Teams length: ${teams.length}');
     scrollController.addListener(_scrollListener);
     super.onInit();
   }
+
+  void sendDataToTradeController(TradeController tradeController) {
+    tradeController.setPlayers(players);
+  }
+
+  // List<MyPlayerModel> myTeamPlayers(MyTeamModel selectedTeam) {
+  //   return selectedTeamPlayers
+  //       .where((player) => player.teamId == selectedTeam.teamId)
+  //       .toList();
+  // }
 
   //Checking the Internet Connectivity
   void initConnectivity() {
@@ -46,13 +63,25 @@ class UniversalController extends GetxController {
       if (result != ConnectivityResult.none) {
         // Internet connection is available, re-fetch data
         if (isError.value) {
-          // AppHelperFunctions.showSnackBar(
-          //     message: 'Internet Connection restored.',
-          //     backgroundColor: Colors.green);
           ToastMessage.showToastMessage(
               message: 'Internet Connection restored.',
               backgroundColor: Colors.green);
+          debugPrint('Fetching Apis again After Internet reconnectivity.');
           await fetchPlayerList();
+          filteredPlayers.assignAll(players);
+          await fetchAllTeams();
+          isApiDataCalled.value = true;
+          debugPrint(
+              'All Apis called After Internet reconnectivity: ${isApiDataCalled.value}');
+          selectedTeamPlayers.assignAll(players);
+          sendDataToTradeController(TradeController());
+          scrollController.addListener(_scrollListener);
+          debugPrint(
+              'players Length After Internet reconnectivity: ${players.length}');
+          debugPrint(
+              'filteredPlayers After Internet reconnectivity: ${filteredPlayers.length}');
+          debugPrint(
+              'Total Teams length After Internet reconnectivity: ${teams.length}');
         }
       }
     });
@@ -103,27 +132,15 @@ class UniversalController extends GetxController {
     filteredPlayers.assignAll(filteredList);
   }
 
-  //Add Players to Draftboard
-  void addPlayersToDraftBoard(MyPlayerModel playerModel) {
-    draftPlayers.add(playerModel);
-    debugPrint('${draftPlayers.length}');
-  }
-
-  //Remove Players from Draftboard
-  void removePlayersToDraftBoard(MyPlayerModel playerModel) {
-    draftPlayers.remove(playerModel);
-    debugPrint('${draftPlayers.length}');
-  }
-
   //Refreshing the data within the application.
-  Future<void> refreshData() async {
-    try {
-      await Future.delayed(const Duration(seconds: 2));
-      await fetchPlayerList();
-    } catch (error) {
-      debugPrint('Error during refresh: $error');
-    }
-  }
+  // Future<void> refreshData() async {
+  //   try {
+  //     await Future.delayed(const Duration(seconds: 2));
+  //     await fetchPlayerList();
+  //   } catch (error) {
+  //     debugPrint('Error during refresh: $error');
+  //   }
+  // }
 
   //Check the User reaches the end of the list.
   void _scrollListener() {

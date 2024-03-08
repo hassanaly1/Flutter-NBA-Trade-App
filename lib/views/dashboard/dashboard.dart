@@ -6,6 +6,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
+import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
 import 'package:nba_trade/views/trade/trade.dart';
@@ -13,18 +14,22 @@ import 'package:nba_trade/views/trade/trade.dart';
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
 
-  List<Map<String, dynamic>> gridItemsData = [
+  final List<Map<String, dynamic>> gridItemsData = [
     {
       "text": "Team Selection",
       "icon": Symbols.diversity_2,
-      "onTap": () => Get.to(() => TeamSelection())
+      "onTap": () => Get.to(() => const TeamSelection())
     },
     {
       "text": "Trade",
       "icon": Symbols.send_time_extension,
       "onTap": () => Get.to(() => TradeScreen())
     },
-    {"text": "NBA Contacts", "icon": Symbols.diversity_3, "onTap": () {}},
+    {
+      "text": "NBA Contacts",
+      "icon": Symbols.diversity_3,
+      "onTap": () => Get.to(() => ContractScreen())
+    },
     {"text": "Approval", "icon": Symbols.order_approve, "onTap": () {}},
     {"text": "Compare Players", "icon": Symbols.compare_arrows, "onTap": () {}},
     {"text": "News", "icon": Symbols.brand_awareness, "onTap": () {}},
@@ -36,18 +41,12 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     UniversalController controller = Get.put(UniversalController());
 
-    return SafeArea(
-      child: DefaultTabController(
-        length: 4,
-        child: Obx(
-          () => Scaffold(
-            backgroundColor: controller.isError.value
-                ? MyColorHelper.primary
-                : MyColorHelper.white,
-            body: Obx(
-              () {
-                if (controller.isError.value) {
-                  return Padding(
+    return Obx(
+      () => SafeArea(
+          child: (controller.isError.value && !controller.isApiDataCalled.value)
+              ? Scaffold(
+                  backgroundColor: MyColorHelper.primary,
+                  body: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -60,72 +59,70 @@ class DashboardScreen extends StatelessWidget {
                         const SpinKitDoubleBounce(color: MyColorHelper.white),
                       ],
                     ),
-                  );
-                }
-                return NestedScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
-                      return [
-                        SliverAppBar(
-                          automaticallyImplyLeading: false,
-                          backgroundColor: Colors.transparent,
-                          forceMaterialTransparency: true,
-                          expandedHeight: 200.0,
-                          flexibleSpace: FlexibleSpaceBar(
-                            collapseMode: CollapseMode.pin,
-                            background: RefreshIndicator(
-                              onRefresh: controller.refreshData,
-                              child: ListView(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: [
-                                  //TopPart
-                                  dashboardHeader(context),
-                                  // CenterPart
-                                  ModulesCard(gridItemsData: gridItemsData),
-                                ],
-                              ),
-                            ),
-                          ),
-                          bottom: CustomTabbar(context: context),
-                        ),
-                      ];
-                    },
-                    body: TabBarView(
-                      children: [
-                        Container(
-                          color: MyColorHelper.primaryBackground,
-                          child: ListView.builder(
-                            //shrinkWrap: true,
-                            itemCount: 10,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.yellowAccent,
-                                  child: Image.asset(
-                                      'assets/images/newsplayers1.jpg'),
+                  ),
+                )
+              : DefaultTabController(
+                  length: 4,
+                  child: Scaffold(
+                      backgroundColor: MyColorHelper.white,
+                      body: NestedScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          headerSliverBuilder: (context, innerBoxIsScrolled) {
+                            return [
+                              SliverAppBar(
+                                automaticallyImplyLeading: false,
+                                backgroundColor: Colors.transparent,
+                                forceMaterialTransparency: true,
+                                expandedHeight: 200.0,
+                                flexibleSpace: FlexibleSpaceBar(
+                                  collapseMode: CollapseMode.pin,
+                                  background: ListView(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: [
+                                      //TopPart
+                                      dashboardHeader(context),
+                                      // CenterPart
+                                      ModulesCard(gridItemsData: gridItemsData),
+                                    ],
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        Container(
-                          color: MyColorHelper.primaryBackground,
-                        ),
-                        Container(
-                          color: MyColorHelper.primaryBackground,
-                        ),
-                        Container(
-                          color: MyColorHelper.primaryBackground,
-                        ),
-                      ],
-                    ));
-              },
-            ),
-          ),
-        ),
-      ),
+                                bottom: CustomTabbar(context: context),
+                              ),
+                            ];
+                          },
+                          body: TabBarView(
+                            children: [
+                              Container(
+                                color: MyColorHelper.secondaryBackground,
+                                child: ListView.builder(
+                                  //shrinkWrap: true,
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        color: Colors.yellowAccent,
+                                        child: Image.asset(
+                                            'assets/images/newsplayers1.jpg'),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Container(
+                                color: MyColorHelper.primaryBackground,
+                              ),
+                              Container(
+                                color: MyColorHelper.primaryBackground,
+                              ),
+                              Container(
+                                color: MyColorHelper.primaryBackground,
+                              ),
+                            ],
+                          ))),
+                )),
     );
   }
 
@@ -155,7 +152,11 @@ class CustomTabbar extends StatelessWidget implements PreferredSizeWidget {
     return SizedBox(
       width: double.infinity,
       child: Material(
-        color: MyColorHelper.primaryBackground,
+        color: MyColorHelper.secondaryBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
           child: ButtonsTabBar(

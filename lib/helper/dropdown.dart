@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nba_trade/controllers/universal_controller.dart';
+import 'package:nba_trade/controllers/trade_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
-import 'package:nba_trade/models/my_team_modal.dart';
+import 'package:nba_trade/helper/toast.dart';
+import 'package:nba_trade/models/my_team_model.dart';
 
 class CustomDropdown extends StatelessWidget {
   final List<MyTeamModel> items;
@@ -11,7 +12,7 @@ class CustomDropdown extends StatelessWidget {
     super.key,
     required this.items,
   });
-  final UniversalController controller = Get.find();
+  final TradeController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +42,13 @@ class CustomDropdown extends StatelessWidget {
                 )))
             .toList(),
         onChanged: (value) {
-          controller.selectedTeams.addNonNull(value!);
+          if (!controller.selectedTeams.contains(value)) {
+            controller.selectedTeams.addNonNull(value!);
+          } else {
+            ToastMessage.showToastMessage(
+                message: '${value?.name} is already selected.',
+                backgroundColor: Colors.red);
+          }
           print(controller.selectedTeams.length);
         },
       ),

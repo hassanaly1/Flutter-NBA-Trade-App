@@ -20,7 +20,9 @@ class PGView extends StatelessWidget {
         elevation: 5.0,
         child: Container(
           padding: const EdgeInsets.all(8.0),
-          color: const Color.fromARGB(255, 219, 219, 255),
+          decoration: BoxDecoration(
+              color: MyColorHelper.primaryBackground,
+              borderRadius: BorderRadius.circular(12.0)),
           child: Obx(
             () {
               if (controller.isError.value) {

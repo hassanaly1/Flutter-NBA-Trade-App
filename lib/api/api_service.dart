@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nba_trade/models/my_player_model.dart';
-import 'package:nba_trade/models/my_team_modal.dart';
+import 'package:nba_trade/models/my_team_model.dart';
 
 class ApiService {
   static String baseUrl = 'https://api.sportsdata.io/v3/nba/scores/json';
@@ -13,7 +13,7 @@ class ApiService {
     var response = await http.get(Uri.parse(allPlayerApi));
 
     if (response.statusCode == 200) {
-      print('Api Called Successfully.');
+      print('PlayersApi Called Successfully.');
       List<dynamic> decodedData = json.decode(response.body);
 
       return List<MyPlayerModel>.from(
@@ -22,7 +22,7 @@ class ApiService {
         ),
       );
     } else {
-      print('Api didn\'t Called Successfully.');
+      print('PlayersApi didn\'t Called Successfully.');
       throw Exception("network error");
     }
   }

@@ -1,20 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:nba_trade/controllers/team_selection_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nba_trade/models/my_player_model.dart';
-import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/views/trade/trade.dart';
 
-class NBAPlayerCard extends StatelessWidget {
+class TradePlayerCard extends StatelessWidget {
   final MyPlayerModel playerModel;
-  final TeamSelectionController controller = Get.find();
-
-  final bool showAddIcon;
-  NBAPlayerCard({
+  const TradePlayerCard({
     super.key,
-    this.showAddIcon = true,
     required this.playerModel,
   });
 
@@ -27,7 +20,7 @@ class NBAPlayerCard extends StatelessWidget {
         child: Container(
           height: 100,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(12.0)),
+              color: Colors.white70, borderRadius: BorderRadius.circular(12.0)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -79,41 +72,9 @@ class NBAPlayerCard extends StatelessWidget {
                 ),
               ),
               // Icons and Button
-              showAddIcon
-                  ? Obx(
-                      () => IconButton(
-                        onPressed: () =>
-                            controller.addPlayersToDraftBoard(playerModel),
-                        icon: Icon(
-                          size: 30.0,
-                          controller.draftPlayers.contains(playerModel)
-                              ? Icons.check_circle
-                              : CupertinoIcons.plus_circle_fill,
-                          color: MyColorHelper.primary,
-                        ),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Icon(Icons.keyboard_arrow_up,
-                              color: MyColorHelper.primary),
-                          IconButton(
-                              onPressed: () => controller
-                                  .removePlayersFromDraftBoard(playerModel),
-                              icon: const Icon(
-                                Icons.cancel,
-                                color: Colors.red,
-                              )),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: MyColorHelper.black,
-                          )
-                        ],
-                      ),
-                    )
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(FontAwesomeIcons.shareFromSquare))
             ],
           ),
         ),

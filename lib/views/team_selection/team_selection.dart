@@ -1,6 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nba_trade/controllers/team_selection_controller.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
@@ -8,9 +9,25 @@ import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/views/team_selection/draftboard_view.dart';
 import 'package:nba_trade/views/team_selection/team_view.dart';
 
-class TeamSelection extends StatelessWidget {
-  TeamSelection({super.key});
+class TeamSelection extends StatefulWidget {
+  const TeamSelection({super.key});
+
+  @override
+  State<TeamSelection> createState() => _TeamSelectionState();
+}
+
+class _TeamSelectionState extends State<TeamSelection> {
+  final TeamSelectionController teamSelectionController =
+      Get.put(TeamSelectionController());
+
   final UniversalController controller = Get.find();
+
+  @override
+  void dispose() {
+    teamSelectionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
