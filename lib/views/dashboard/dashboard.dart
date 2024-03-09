@@ -6,6 +6,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
+import 'package:nba_trade/views/compare/compare.dart';
 import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
@@ -28,10 +29,14 @@ class DashboardScreen extends StatelessWidget {
     {
       "text": "NBA Contacts",
       "icon": Symbols.diversity_3,
-      "onTap": () => Get.to(() => ContractScreen())
+      "onTap": () => Get.to(() => const ContractScreen())
     },
-    {"text": "Approval", "icon": Symbols.order_approve, "onTap": () {}},
-    {"text": "Compare Players", "icon": Symbols.compare_arrows, "onTap": () {}},
+    // {"text": "Approval", "icon": Symbols.order_approve, "onTap": () {}},
+    {
+      "text": "Compare",
+      "icon": Symbols.compare_arrows,
+      "onTap": () => Get.to(() => ComparePlayerScreen())
+    },
     {"text": "News", "icon": Symbols.brand_awareness, "onTap": () {}},
     {"text": "Spaces", "icon": Symbols.public, "onTap": () {}},
     {"text": "Chatrooms", "icon": Symbols.inbox, "onTap": () {}},

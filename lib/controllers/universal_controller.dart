@@ -20,7 +20,7 @@ class UniversalController extends GetxController {
   var players = <MyPlayerModel>[].obs;
 
   final filteredPlayers = <MyPlayerModel>[].obs;
-  List<PlayerStats> playersStatistics = [];
+  var playersStatistics = <PlayerStatsModel>[].obs;
 
   var teams = <MyTeamModel>[].obs;
   var selectedTeamPlayers = <MyPlayerModel>[].obs;
@@ -32,6 +32,7 @@ class UniversalController extends GetxController {
     initConnectivity();
     await fetchPlayerList();
     await fetchAllTeams();
+    await fetchAllPlayersStats();
     isApiDataCalled.value = true;
     debugPrint('All Apis called: ${isApiDataCalled.value}');
     selectedTeamPlayers.assignAll(players);
@@ -41,6 +42,7 @@ class UniversalController extends GetxController {
     debugPrint('players Length: ${players.length}');
     debugPrint('filteredPlayers: ${filteredPlayers.length}');
     debugPrint('Total Teams length: ${teams.length}');
+    debugPrint('Total Stats: ${playersStatistics.length}');
     scrollController.addListener(_scrollListener);
     super.onInit();
   }
@@ -108,6 +110,21 @@ class UniversalController extends GetxController {
       teams.value = await ApiService.fetchAllTeams();
       isError.value = false;
       return teams;
+    } catch (error) {
+      debugPrint('Error fetching teams list: $error');
+      isError.value = true;
+      ToastMessage.showToastMessage(
+          message: 'Network Error.', backgroundColor: Colors.red);
+      rethrow;
+    }
+  }
+
+  Future<List<PlayerStatsModel>> fetchAllPlayersStats() async {
+    try {
+      debugPrint('Fetching Statistics');
+      playersStatistics.value = await ApiService.fetchAllPlayersStatistics();
+      isError.value = false;
+      return playersStatistics;
     } catch (error) {
       debugPrint('Error fetching teams list: $error');
       isError.value = true;

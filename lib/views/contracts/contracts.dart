@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
-import 'package:nba_trade/helper/text.dart';
 
 class ContractScreen extends StatelessWidget {
   const ContractScreen({super.key});
@@ -15,24 +13,28 @@ class ContractScreen extends StatelessWidget {
         child: Scaffold(
       backgroundColor: MyColorHelper.primaryBackground,
       body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                stretch: true,
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                forceMaterialTransparency: true,
-                expandedHeight: context.height * 0.1,
-                flexibleSpace: ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    const CustomAppBar(title: 'NBA Contracts'),
-                  ],
-                ),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              stretch: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              forceMaterialTransparency: true,
+              expandedHeight: context.height * 0.1,
+              flexibleSpace: ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  CustomAppBar(title: 'NBA Contracts'),
+                ],
               ),
-            ];
-          },
-          body: Expanded(child: PlayerTable())),
+            ),
+          ];
+        },
+        body: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: PlayerTable(),
+        ),
+      ),
     ));
   }
 }
@@ -55,14 +57,14 @@ class PlayerTable extends StatelessWidget {
         columnSpacing: 20.0,
         headingRowColor:
             MaterialStateColor.resolveWith((states) => MyColorHelper.primary),
-        columns: [
-          const DataColumn(label: Text('Player')),
-          const DataColumn(label: Text('Position')),
-          const DataColumn(label: Text('Salary')),
-          const DataColumn(label: Text('Category')),
-          const DataColumn(label: Text('Experience')),
-          const DataColumn(label: Text('Status')),
-          const DataColumn(label: Text('Signed Using')),
+        columns: const [
+          DataColumn(label: Text('Player')),
+          DataColumn(label: Text('Position')),
+          DataColumn(label: Text('Salary')),
+          DataColumn(label: Text('Category')),
+          DataColumn(label: Text('Experience')),
+          DataColumn(label: Text('Status')),
+          DataColumn(label: Text('Signed Using')),
           DataColumn(label: Text('Country')),
         ],
         rows: controller.players.map((player) {
@@ -81,6 +83,5 @@ class PlayerTable extends StatelessWidget {
         }).toList(),
       ),
     );
-    ;
   }
 }

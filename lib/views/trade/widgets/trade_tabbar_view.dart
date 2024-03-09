@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -13,10 +12,10 @@ import 'package:nba_trade/views/trade/widgets/trade_player_card.dart';
 class TradeTabbarView extends StatefulWidget {
   final MyTeamModel myTeamModel;
 
-  TradeTabbarView({
-    Key? key,
+  const TradeTabbarView({
+    super.key,
     required this.myTeamModel,
-  }) : super(key: key);
+  });
 
   @override
   _TradeTabbarViewState createState() => _TradeTabbarViewState();

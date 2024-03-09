@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nba_trade/controllers/trade_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
-import 'package:nba_trade/helper/toast.dart';
 import 'package:nba_trade/models/my_team_model.dart';
 
 class CustomDropdown extends StatelessWidget {
+  final String hintText;
   final List<MyTeamModel> items;
-  CustomDropdown({
+  final Function(MyTeamModel?)? onChanged;
+  const CustomDropdown({
     super.key,
     required this.items,
+    this.onChanged,
+    required this.hintText,
   });
-  final TradeController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DropdownButtonFormField(
-        hint: const CustomTextWidget(
-          text: 'Select Team',
+        onTap: () => print('Dropdown tapped'),
+        hint: CustomTextWidget(
+          text: hintText,
           fontSize: 16.0,
           fontWeight: FontWeight.w600,
         ),
@@ -41,16 +43,17 @@ class CustomDropdown extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 )))
             .toList(),
-        onChanged: (value) {
-          if (!controller.selectedTeams.contains(value)) {
-            controller.selectedTeams.addNonNull(value!);
-          } else {
-            ToastMessage.showToastMessage(
-                message: '${value?.name} is already selected.',
-                backgroundColor: Colors.red);
-          }
-          print(controller.selectedTeams.length);
-        },
+        onChanged: onChanged,
+        // onChanged: (value) {
+        //   if (!controller.selectedTeams.contains(value)) {
+        //     controller.selectedTeams.addNonNull(value!);
+        //   } else {
+        //     ToastMessage.showToastMessage(
+        //         message: '${value?.name} is already selected.',
+        //         backgroundColor: Colors.red);
+        //   }
+        //   print(controller.selectedTeams.length);
+        // },
       ),
     );
   }

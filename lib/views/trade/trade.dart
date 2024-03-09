@@ -7,6 +7,7 @@ import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/dropdown.dart';
 import 'package:nba_trade/helper/text.dart';
+import 'package:nba_trade/helper/toast.dart';
 import 'package:nba_trade/views/trade/widgets/trade_tabbar.dart';
 import 'package:nba_trade/views/trade/widgets/trade_tabbar_view.dart';
 
@@ -36,7 +37,22 @@ class TradeScreen extends StatelessWidget {
                     flexibleSpace: ListView(
                       children: [
                         const CustomAppBar(title: 'Trade Machine'),
-                        CustomDropdown(items: controller.teams),
+                        CustomDropdown(
+                          hintText: 'Select Team',
+                          items: controller.teams,
+                          onChanged: (value) {
+                            if (!tradeController.selectedTeams
+                                .contains(value)) {
+                              tradeController.selectedTeams.addNonNull(value!);
+                            } else {
+                              ToastMessage.showToastMessage(
+                                  message:
+                                      '${value?.name} is already selected.',
+                                  backgroundColor: Colors.red);
+                            }
+                            print(tradeController.selectedTeams.length);
+                          },
+                        ),
                         TradeTabbar(controller: tradeController),
                       ],
                     ),

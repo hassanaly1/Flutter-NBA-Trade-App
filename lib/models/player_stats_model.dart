@@ -1,4 +1,4 @@
-class PlayerStats {
+class PlayerStatsModel {
   int? statId;
   int? teamId;
   int? playerId;
@@ -58,7 +58,7 @@ class PlayerStats {
   String? lineupConfirmed;
   String? lineupStatus;
 
-  PlayerStats({
+  PlayerStatsModel({
     this.statId,
     this.teamId,
     this.playerId,
@@ -119,7 +119,8 @@ class PlayerStats {
     this.lineupStatus,
   });
 
-  static PlayerStats fromJson(Map<String, dynamic> json) => PlayerStats(
+  static PlayerStatsModel fromMap(Map<String, dynamic> json) =>
+      PlayerStatsModel(
         statId: json["StatID"],
         teamId: json["TeamID"],
         playerId: json["PlayerID"],
