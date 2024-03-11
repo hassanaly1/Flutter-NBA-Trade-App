@@ -1,4 +1,5 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
+import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/views/compare/compare.dart';
 import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
@@ -100,19 +102,13 @@ class DashboardScreen extends StatelessWidget {
                           body: TabBarView(
                             children: [
                               Container(
-                                color: MyColorHelper.secondaryBackground,
+                                color: MyColorHelper.secondaryBackground
+                                    .withOpacity(0.5),
                                 child: ListView.builder(
                                   //shrinkWrap: true,
                                   itemCount: 10,
                                   itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        color: Colors.yellowAccent,
-                                        child: Image.asset(
-                                            'assets/images/newsplayers1.jpg'),
-                                      ),
-                                    );
+                                    return const PostWidget();
                                   },
                                 ),
                               ),
@@ -140,6 +136,162 @@ class DashboardScreen extends StatelessWidget {
         title: 'NBA Trade Machine',
         showSearchBar: true,
       ),
+    );
+  }
+}
+
+class PostWidget extends StatelessWidget {
+  const PostWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4.0),
+              height: 40,
+              color: MyColorHelper.white,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/user2.jpg'),
+                  ),
+                  CustomTextWidget(
+                    text: 's/Space',
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  CustomTextWidget(
+                    text: 'Posted by: James Anderson',
+                    fontSize: 12.0,
+                  ),
+                  CustomTextWidget(
+                    text: '3 days ago',
+                    fontSize: 10.0,
+                    textColor: Colors.black38,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 160,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: 4,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        if (index < 3) {
+                          return Container(
+                            color: [
+                              Colors.blueAccent.withOpacity(0.25),
+                              Colors.greenAccent.withOpacity(0.25),
+                              Colors.orangeAccent.withOpacity(0.25),
+                            ][index],
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                'assets/images/player${index + 1}.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            color: Colors.redAccent.withOpacity(0.25),
+                            child: const Center(
+                              child: Text(
+                                '+1',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: MyColorHelper.primary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(4.0),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextWidget(
+                            text: 'Title',
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          CustomTextWidget(
+                            text:
+                                'This would be a MASSIVE upgrade over Wiggins 29% from 3 and Moody 36%. Does anyone REALLY want to face the Warriors in the playoffs with a healthy Steph and Dray shooting more 3s than anyone on 38-40% as a team? Hell no! That\'s why this trade is worth the FRP. They will live and die by the 3 but they get hot they can torch anyone. Twolves... Nuggets... Lakers... So watch out Celtics... Curry could do something historical this year.',
+                            fontSize: 12.0,
+                            maxLines: 6,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 40,
+              color: MyColorHelper.white,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InteractionWidget(
+                    text: '45',
+                    icon: Symbols.favorite,
+                  ),
+                  InteractionWidget(
+                    text: '45',
+                    icon: Symbols.mode_comment,
+                  ),
+                  Icon(Symbols.share),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InteractionWidget extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  const InteractionWidget({
+    super.key,
+    required this.text,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(onPressed: () {}, icon: Icon(icon)),
+        CustomTextWidget(text: text),
+      ],
     );
   }
 }
