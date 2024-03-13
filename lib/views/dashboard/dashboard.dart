@@ -11,6 +11,7 @@ import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/views/compare/compare.dart';
 import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
+import 'package:nba_trade/views/post/post_detail.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
 import 'package:nba_trade/views/trade/trade.dart';
 
@@ -95,7 +96,27 @@ class DashboardScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                bottom: CustomTabbar(context: context),
+                                bottom: CustomTabbar(
+                                  context: context,
+                                  tabs: const [
+                                    Tab(
+                                      text: 'My feeds',
+                                      icon: Icon(Symbols.feed),
+                                    ),
+                                    Tab(
+                                      text: 'Trending',
+                                      icon: Icon(Symbols.trending_up),
+                                    ),
+                                    Tab(
+                                      text: 'New',
+                                      icon: Icon(Symbols.autorenew),
+                                    ),
+                                    Tab(
+                                      text: 'Top',
+                                      icon: Icon(Symbols.subheader_rounded),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ];
                           },
@@ -145,131 +166,134 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              height: 40,
-              color: MyColorHelper.white,
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/user2.jpg'),
-                  ),
-                  CustomTextWidget(
-                    text: 's/Space',
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  CustomTextWidget(
-                    text: 'Posted by: James Anderson',
-                    fontSize: 12.0,
-                  ),
-                  CustomTextWidget(
-                    text: '3 days ago',
-                    fontSize: 10.0,
-                    textColor: Colors.black38,
-                  ),
-                ],
+    return InkWell(
+      onTap: () => Get.to(() => PostDetailScreen()),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(4.0),
+                height: 40,
+                color: MyColorHelper.white,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/user2.jpg'),
+                    ),
+                    CustomTextWidget(
+                      text: 's/Space',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    CustomTextWidget(
+                      text: 'Posted by: James Anderson',
+                      fontSize: 12.0,
+                    ),
+                    CustomTextWidget(
+                      text: '3 days ago',
+                      fontSize: 10.0,
+                      textColor: Colors.black38,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 160,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      itemCount: 4,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        if (index < 3) {
-                          return Container(
-                            color: [
-                              Colors.blueAccent.withOpacity(0.25),
-                              Colors.greenAccent.withOpacity(0.25),
-                              Colors.orangeAccent.withOpacity(0.25),
-                            ][index],
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                'assets/images/player${index + 1}.png',
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container(
-                            color: Colors.redAccent.withOpacity(0.25),
-                            child: const Center(
-                              child: Text(
-                                '+1',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: MyColorHelper.primary,
-                                  fontWeight: FontWeight.w500,
+              SizedBox(
+                height: 160,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: 4,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          if (index < 3) {
+                            return Container(
+                              color: [
+                                Colors.blueAccent.withOpacity(0.25),
+                                Colors.greenAccent.withOpacity(0.25),
+                                Colors.orangeAccent.withOpacity(0.25),
+                              ][index],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  'assets/images/player${index + 1}.png',
+                                  fit: BoxFit.contain,
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(4.0),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomTextWidget(
-                            text: 'Title',
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          CustomTextWidget(
-                            text:
-                                'This would be a MASSIVE upgrade over Wiggins 29% from 3 and Moody 36%. Does anyone REALLY want to face the Warriors in the playoffs with a healthy Steph and Dray shooting more 3s than anyone on 38-40% as a team? Hell no! That\'s why this trade is worth the FRP. They will live and die by the 3 but they get hot they can torch anyone. Twolves... Nuggets... Lakers... So watch out Celtics... Curry could do something historical this year.',
-                            fontSize: 12.0,
-                            maxLines: 6,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ],
+                            );
+                          } else {
+                            return Container(
+                              color: Colors.redAccent.withOpacity(0.25),
+                              child: const Center(
+                                child: Text(
+                                  '+1',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: MyColorHelper.primary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextWidget(
+                              text: 'Title',
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            CustomTextWidget(
+                              text:
+                                  'This would be a MASSIVE upgrade over Wiggins 29% from 3 and Moody 36%. Does anyone REALLY want to face the Warriors in the playoffs with a healthy Steph and Dray shooting more 3s than anyone on 38-40% as a team? Hell no! That\'s why this trade is worth the FRP. They will live and die by the 3 but they get hot they can torch anyone. Twolves... Nuggets... Lakers... So watch out Celtics... Curry could do something historical this year.',
+                              fontSize: 12.0,
+                              maxLines: 6,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              height: 40,
-              color: MyColorHelper.white,
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InteractionWidget(
-                    text: '45',
-                    icon: Symbols.favorite,
-                  ),
-                  InteractionWidget(
-                    text: '45',
-                    icon: Symbols.mode_comment,
-                  ),
-                  Icon(Symbols.share),
-                ],
+              Container(
+                height: 40,
+                color: MyColorHelper.white,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InteractionWidget(
+                      text: '45',
+                      icon: Symbols.favorite,
+                    ),
+                    InteractionWidget(
+                      text: '45',
+                      icon: Symbols.mode_comment,
+                    ),
+                    Icon(Symbols.share),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -298,11 +322,9 @@ class InteractionWidget extends StatelessWidget {
 
 class CustomTabbar extends StatelessWidget implements PreferredSizeWidget {
   final BuildContext context;
+  final List<Widget> tabs;
 
-  const CustomTabbar({
-    super.key,
-    required this.context,
-  });
+  const CustomTabbar({super.key, required this.context, required this.tabs});
 
   @override
   Widget build(BuildContext context) {
@@ -338,24 +360,7 @@ class CustomTabbar extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.w300,
               fontFamily: 'Roboto',
             ),
-            tabs: const [
-              Tab(
-                text: 'My feeds',
-                icon: Icon(Symbols.feed),
-              ),
-              Tab(
-                text: 'Trending',
-                icon: Icon(Symbols.trending_up),
-              ),
-              Tab(
-                text: 'New',
-                icon: Icon(Symbols.autorenew),
-              ),
-              Tab(
-                text: 'Top',
-                icon: Icon(Symbols.subheader_rounded),
-              ),
-            ],
+            tabs: tabs,
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
+import 'package:nba_trade/helper/text.dart';
 
 class ContractScreen extends StatelessWidget {
   const ContractScreen({super.key});
@@ -58,26 +59,60 @@ class PlayerTable extends StatelessWidget {
         headingRowColor:
             MaterialStateColor.resolveWith((states) => MyColorHelper.primary),
         columns: const [
-          DataColumn(label: Text('Player')),
-          DataColumn(label: Text('Position')),
-          DataColumn(label: Text('Salary')),
-          DataColumn(label: Text('Category')),
-          DataColumn(label: Text('Experience')),
-          DataColumn(label: Text('Status')),
-          DataColumn(label: Text('Signed Using')),
-          DataColumn(label: Text('Country')),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Player',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Position',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Salary',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Category',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Experience',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Status',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Signed Using',
+            textColor: MyColorHelper.white,
+          )),
+          DataColumn(
+              label: CustomTextWidget(
+            text: 'Country',
+            textColor: MyColorHelper.white,
+          )),
         ],
         rows: controller.players.map((player) {
           return DataRow(
             cells: [
-              DataCell(Text(player.firstName ?? "")),
-              DataCell(Text(player.position ?? "")),
-              DataCell(Text(player.salary.toString() ?? "")),
-              DataCell(Text(player.positionCategory ?? "")),
-              DataCell(Text(player.experience.toString() ?? "")),
-              DataCell(Text(player.status ?? "")),
-              DataCell(Text(player.team ?? "")),
-              DataCell(Text(player.birthCountry ?? "")),
+              DataCell(CustomTextWidget(text: player.firstName ?? "")),
+              DataCell(CustomTextWidget(text: player.position ?? "")),
+              DataCell(CustomTextWidget(
+                  text: '\$${player.salary.toString()}' ?? "")),
+              DataCell(CustomTextWidget(text: player.positionCategory ?? "")),
+              DataCell(
+                  CustomTextWidget(text: player.experience.toString() ?? "")),
+              DataCell(CustomTextWidget(text: player.status ?? "")),
+              DataCell(CustomTextWidget(text: player.team ?? "")),
+              DataCell(CustomTextWidget(text: player.birthCountry ?? "")),
             ],
           );
         }).toList(),

@@ -18,7 +18,7 @@ class TeamSelection extends StatefulWidget {
 
 class _TeamSelectionState extends State<TeamSelection> {
   final TeamSelectionController teamSelectionController =
-      Get.put(TeamSelectionController());
+      Get.put(TeamSelectionController(), permanent: true);
 
   final UniversalController controller = Get.find();
 
