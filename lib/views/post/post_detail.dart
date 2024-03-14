@@ -1,7 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
@@ -17,31 +15,30 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  // ExpansionTileController expansionTileController = ExpansionTileController();
   late final ExpansionTileController expansionTileController;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: MyColorHelper.primaryBackground,
+      backgroundColor: MyColorHelper.white,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
               stretch: true,
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
               forceMaterialTransparency: true,
-              expandedHeight: context.height * 0.3,
+              expandedHeight: context.height * 0.4,
               flexibleSpace: ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   const CustomAppBar(title: 'Post Title'),
                   Container(
-                    height: context.height * 0.25,
-                    // color: Colors.yellowAccent,
-                    decoration: const BoxDecoration(),
+                    height: context.height * 0.3,
+                    decoration: const BoxDecoration(
+                      color: MyColorHelper.white,
+                    ),
                     child: CarouselSlider(
                       options: CarouselOptions(
                           height: context.height * 0.2,
@@ -79,7 +76,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         //   isExpanded: isExpanded,
         // ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
               const ListTile(
@@ -127,7 +124,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               SizedBox(height: context.height * 0.02),
               Container(
                 height: context.height * 0.2,
-                color: Colors.white,
+                color: Colors.blueAccent,
               ),
               SizedBox(height: context.height * 0.02),
               ListView.separated(
@@ -154,9 +151,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
 class CustomCommentWidget extends StatefulWidget {
   const CustomCommentWidget({
-    Key? key,
+    super.key,
     required this.expansionTileController,
-  }) : super(key: key);
+  });
 
   final ExpansionTileController expansionTileController;
 
@@ -171,6 +168,10 @@ class _CustomCommentWidgetState extends State<CustomCommentWidget> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      collapsedBackgroundColor: MyColorHelper.primaryBackground,
+      maintainState: true,
+      visualDensity: VisualDensity.comfortable,
+      tilePadding: const EdgeInsets.all(12.0),
       controller: widget.expansionTileController,
       onExpansionChanged: (value) {
         isExpanded.value = value;

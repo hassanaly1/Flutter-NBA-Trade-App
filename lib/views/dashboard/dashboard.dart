@@ -1,5 +1,4 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -8,9 +7,11 @@ import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
+import 'package:nba_trade/views/chatrooms/chatroom.dart';
 import 'package:nba_trade/views/compare/compare.dart';
 import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
+import 'package:nba_trade/views/news/news.dart';
 import 'package:nba_trade/views/post/post_detail.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
 import 'package:nba_trade/views/trade/trade.dart';
@@ -40,9 +41,21 @@ class DashboardScreen extends StatelessWidget {
       "icon": Symbols.compare_arrows,
       "onTap": () => Get.to(() => ComparePlayerScreen())
     },
-    {"text": "News", "icon": Symbols.brand_awareness, "onTap": () {}},
-    {"text": "Spaces", "icon": Symbols.public, "onTap": () {}},
-    {"text": "Chatrooms", "icon": Symbols.inbox, "onTap": () {}},
+    {
+      "text": "News",
+      "icon": Symbols.brand_awareness,
+      "onTap": () => Get.to(() => const NewsScreen())
+    },
+    {
+      "text": "Spaces",
+      "icon": Symbols.public,
+      "onTap": () => Get.to(() => const ChatroomScreen())
+    },
+    {
+      "text": "Chatrooms",
+      "icon": Symbols.inbox,
+      "onTap": () => Get.to(() => const ChatroomScreen())
+    },
   ];
 
   @override
@@ -167,7 +180,7 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => PostDetailScreen()),
+      onTap: () => Get.to(() => const PostDetailScreen()),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(

@@ -19,7 +19,7 @@ class CustomDropdown extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DropdownButtonFormField(
-        onTap: () => print('Dropdown tapped'),
+        onTap: () => debugPrint('Dropdown tapped'),
         hint: CustomTextWidget(
           text: hintText,
           fontSize: 16.0,

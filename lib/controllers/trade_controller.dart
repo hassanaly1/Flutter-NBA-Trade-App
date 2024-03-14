@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/models/my_team_model.dart';
@@ -8,6 +9,6 @@ class TradeController extends GetxController {
 
   void setPlayers(List<MyPlayerModel> players) {
     allPlayers.assignAll(players);
-    print('AllPlayers: ${allPlayers.length}');
+    debugPrint('AllPlayers: ${allPlayers.length}');
   }
 }

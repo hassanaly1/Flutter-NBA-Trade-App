@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/models/my_team_model.dart';
@@ -16,7 +17,7 @@ class ApiService {
     var response = await http.get(Uri.parse(allPlayerApi));
 
     if (response.statusCode == 200) {
-      print('PlayersApi Called Successfully.');
+      debugPrint('PlayersApi Called Successfully.');
       List<dynamic> decodedData = json.decode(response.body);
 
       return List<MyPlayerModel>.from(
@@ -25,7 +26,7 @@ class ApiService {
         ),
       );
     } else {
-      print('PlayersApi didn\'t Called Successfully.');
+      debugPrint('PlayersApi didn\'t Called Successfully.');
       throw Exception("network error");
     }
   }
@@ -34,7 +35,7 @@ class ApiService {
     var response = await http.get(Uri.parse(allTeamsApi));
 
     if (response.statusCode == 200) {
-      print('TeamsApi called Successfully.');
+      debugPrint('TeamsApi called Successfully.');
       List<dynamic> decodedData = json.decode(response.body);
 
       return List<MyTeamModel>.from(
@@ -43,7 +44,7 @@ class ApiService {
         ),
       );
     } else {
-      print('TeamsApi didn\'t call Successfully.');
+      debugPrint('TeamsApi didn\'t call Successfully.');
       throw Exception("Network error");
     }
   }
@@ -52,7 +53,7 @@ class ApiService {
     var response = await http.get(Uri.parse(allPlayersStatsApi));
 
     if (response.statusCode == 200) {
-      print('AllPlayersStatistics called Successfully.');
+      debugPrint('AllPlayersStatistics called Successfully.');
       List<dynamic> decodedData = json.decode(response.body);
 
       return List<PlayerStatsModel>.from(
@@ -61,7 +62,7 @@ class ApiService {
         ),
       );
     } else {
-      print('AllPlayersStatistics didn\'t call Successfully.');
+      debugPrint('AllPlayersStatistics didn\'t call Successfully.');
       throw Exception("Network error");
     }
   }

@@ -50,7 +50,8 @@ class TradeScreen extends StatelessWidget {
                                       '${value?.name} is already selected.',
                                   backgroundColor: Colors.red);
                             }
-                            print(tradeController.selectedTeams.length);
+                            debugPrint(tradeController.selectedTeams.length
+                                as String?);
                           },
                         ),
                         TradeTabbar(controller: tradeController),

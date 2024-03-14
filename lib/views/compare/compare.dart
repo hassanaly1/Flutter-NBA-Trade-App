@@ -259,7 +259,7 @@ class TopSection extends StatelessWidget {
                       players: universalController.playersStatistics,
                       onChanged: (value) {
                         controller.selectedPlayer1.value = value;
-                        print(controller.selectedPlayer1);
+                        debugPrint(controller.selectedPlayer1 as String?);
                       },
                     )
                   ],
@@ -293,7 +293,7 @@ class TopSection extends StatelessWidget {
                       players: universalController.playersStatistics,
                       onChanged: (value) {
                         controller.selectedPlayer2.value = value;
-                        print(controller.selectedPlayer2);
+                        debugPrint(controller.selectedPlayer2 as String?);
                       },
                     )
                   ],
