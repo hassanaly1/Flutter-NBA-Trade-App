@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/controllers/team_selection_controller.dart';
-import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
+import 'package:nba_trade/models/my_player_model.dart';
 import 'package:nba_trade/views/trade/trade.dart';
 
 class NBAPlayerCard extends StatelessWidget {
@@ -63,13 +63,13 @@ class NBAPlayerCard extends StatelessWidget {
                         children: [
                           CustomRichText(
                             heading: 'Team:',
-                            value: '${playerModel.team}' ?? '',
+                            value: '${playerModel.team}',
                             useBlackColor: true,
                           ),
                           const SizedBox(width: 6.0),
                           CustomRichText(
                             heading: 'ID',
-                            value: playerModel.teamId.toString() ?? '',
+                            value: playerModel.teamId.toString(),
                             useBlackColor: true,
                           )
                         ],
@@ -83,7 +83,7 @@ class NBAPlayerCard extends StatelessWidget {
                   ? Obx(
                       () => IconButton(
                         onPressed: () =>
-                            controller.addPlayersToDraftBoard(playerModel),
+                            controller.addOrRemovePlayer(playerModel),
                         icon: Icon(
                           size: 30.0,
                           controller.draftPlayers.contains(playerModel)
@@ -101,8 +101,8 @@ class NBAPlayerCard extends StatelessWidget {
                           const Icon(Icons.keyboard_arrow_up,
                               color: MyColorHelper.primary),
                           IconButton(
-                              onPressed: () => controller
-                                  .removePlayersFromDraftBoard(playerModel),
+                              onPressed: () =>
+                                  controller.addOrRemovePlayer(playerModel),
                               icon: const Icon(
                                 Icons.cancel,
                                 color: Colors.red,

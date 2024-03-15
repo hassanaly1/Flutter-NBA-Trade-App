@@ -7,7 +7,7 @@ import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/models/player_stats_model.dart';
-import 'package:nba_trade/views/compare/widgets/compare_dropdown.dart';
+import 'package:nba_trade/views/compare/compare_dropdown.dart';
 
 class ComparePlayerScreen extends StatelessWidget {
   ComparePlayerScreen({super.key});

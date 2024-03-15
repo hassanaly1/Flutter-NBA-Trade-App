@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/searchbar.dart';
-import 'package:nba_trade/models/my_player_model.dart';
-import 'package:nba_trade/views/team_selection/widgets/all.dart';
-import 'package:nba_trade/views/team_selection/widgets/c.dart';
-import 'package:nba_trade/views/team_selection/widgets/pf.dart';
-import 'package:nba_trade/views/team_selection/widgets/pg.dart';
-import 'package:nba_trade/views/team_selection/widgets/sf.dart';
-import 'package:nba_trade/views/team_selection/widgets/sg.dart';
+
+import '../../controllers/team_selection_controller.dart';
+import 'player_card.dart';
 
 class Team extends StatelessWidget {
-  final List<MyPlayerModel> players;
-  final UniversalController controller = Get.find();
+  final controller = Get.find<TeamSelectionController>();
 
-  Team({super.key, required this.players});
+  Team({super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,31 +32,25 @@ class Team extends StatelessWidget {
                         color: MyColorHelper.primaryBackground,
                         border: Border.all(color: Colors.black12),
                       ),
-                      child: const TabBar(
+                      child: TabBar(
                         padding: EdgeInsets.zero,
                         isScrollable: false,
                         dividerColor: Colors.transparent,
                         tabAlignment: TabAlignment.fill,
-                        unselectedLabelStyle: TextStyle(
+                        unselectedLabelStyle: const TextStyle(
                           fontSize: 10.0,
                           fontWeight: FontWeight.w400,
                           color: Colors.black54,
                         ),
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: MyColorHelper.primary,
                         ),
                         indicatorSize: TabBarIndicatorSize.tab,
-                        tabs: [
-                          Tab(text: 'ALL'),
-                          Tab(text: 'PG'),
-                          Tab(text: 'SG'),
-                          Tab(text: 'PF'),
-                          Tab(text: 'SF'),
-                          Tab(text: 'C'),
-                        ],
+                        tabs: controller.tabs.map((e) => Tab(text: e)).toList(),
                         labelColor: Colors.black,
+                        onTap: (int i) => controller.loadPlayers(i),
                         unselectedLabelColor: Colors.grey,
                         indicatorColor: MyColorHelper.primary,
                       ),
@@ -70,45 +58,38 @@ class Team extends StatelessWidget {
                   ),
                 ),
                 CustomSearchBar(
-                  onChanged: controller.filterPlayers,
+                  onChanged: (String? str) {},
+                  // onChanged: controller.searchPlayers,
                 ),
-                Obx(
-                  () => Expanded(
-                    child: TabBarView(
-                      children: [
-                        AllView(players: controller.filteredPlayers),
-                        PGView(
-                          players: filterPlayersByPosition(
-                            controller.filteredPlayers,
-                            'PG',
-                          ),
-                        ),
-                        SGView(
-                          players: filterPlayersByPosition(
-                            controller.filteredPlayers,
-                            'SG',
-                          ),
-                        ),
-                        PFView(
-                          players: filterPlayersByPosition(
-                            controller.filteredPlayers,
-                            'PF',
-                          ),
-                        ),
-                        SFView(
-                          players: filterPlayersByPosition(
-                            controller.filteredPlayers,
-                            'SF',
-                          ),
-                        ),
-                        CView(
-                          players: filterPlayersByPosition(
-                            controller.filteredPlayers,
-                            'C',
-                          ),
-                        ),
-                      ],
-                    ),
+                Expanded(
+                  child: TabBarView(
+                    children: controller.tabs
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                elevation: 5.0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: MyColorHelper.primaryBackground,
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: Obx(() => ListView.builder(
+                                        controller: controller.scrollController,
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            controller.playersLength.value,
+                                        itemBuilder: (context, index) {
+                                          return NBAPlayerCard(
+                                            playerModel: controller
+                                                .filteredPlayers[index],
+                                          );
+                                        },
+                                      )),
+                                ),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ),
               ],
@@ -117,14 +98,5 @@ class Team extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<MyPlayerModel> filterPlayersByPosition(
-    List<MyPlayerModel> players,
-    String position,
-  ) {
-    return players
-        .where((player) => player.depthChartPosition == position)
-        .toList();
   }
 }

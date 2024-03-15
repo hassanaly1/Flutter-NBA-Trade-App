@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
+import 'package:nba_trade/helper/rich_text_field.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/helper/textfield.dart';
 import 'package:readmore/readmore.dart';
@@ -98,33 +101,32 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   textAlign: TextAlign.start,
                 ),
               ),
-              const ReadMoreText(
-                'This would be a MASSIVE upgrade over Wiggins 29% from 3 and Moody 36%. Does anyone REALLY want to face the Warriors in the playoffs with a healthy Steph and Dray shooting more 3s than anyone on 38-40% as a team? Hell no! That\'s why this trade is worth the FRP. They will live and die by the 3 but they get hot they can torch anyone. Twolves... Nuggets... Lakers... So watch out Celtics... Curry could do something historical this year.',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 12.0),
-                colorClickableText: Colors.pink,
-                trimMode: TrimMode.Length,
-                trimLength: 120,
-                trimCollapsedText: ' Show more',
-                trimExpandedText: ' Show less',
-                moreStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto'),
-                lessStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto'),
+              const Description(
+                  description:
+                      'This would be a MASSIVE upgrade over Wiggins 29% from 3 and Moody 36%. Does anyone REALLY want to face the Warriors in the playoffs with a healthy Steph and Dray shooting more 3s than anyone on 38-40% as a team? Hell no! That\'s why this trade is worth the FRP. They will live and die by the 3 but they get hot they can torch anyone. Twolves... Nuggets... Lakers... So watch out Celtics... Curry could do something historical this year.'),
+              SizedBox(height: context.height * 0.02),
+              Container(
+                padding: const EdgeInsets.all(12.0),
+                color: Colors.grey.shade200,
+                width: 800,
+                child: Column(
+                  children: [
+                    MyQuillToolBar(
+                      controller: QuillController.basic(),
+                    ),
+                    MyQuillEditor(
+                      textStyles: const DefaultStyles(),
+                      hints: 'Comment',
+                      controller: QuillController.basic(),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: context.height * 0.02),
               const CustomTextWidget(
                 text: 'Comments',
                 fontSize: 18.0,
                 fontWeight: FontWeight.w600,
-              ),
-              SizedBox(height: context.height * 0.02),
-              Container(
-                height: context.height * 0.2,
-                color: Colors.blueAccent,
               ),
               SizedBox(height: context.height * 0.02),
               ListView.separated(
@@ -149,6 +151,31 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 }
 
+class Description extends StatelessWidget {
+  final String description;
+  const Description({
+    super.key,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ReadMoreText(
+      description,
+      style: const TextStyle(fontFamily: 'Roboto', fontSize: 12.0),
+      colorClickableText: Colors.pink,
+      trimMode: TrimMode.Length,
+      trimLength: 120,
+      trimCollapsedText: ' Show more',
+      trimExpandedText: ' Show less',
+      moreStyle: const TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
+      lessStyle: const TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
+    );
+  }
+}
+
 class CustomCommentWidget extends StatefulWidget {
   const CustomCommentWidget({
     super.key,
@@ -168,8 +195,9 @@ class _CustomCommentWidgetState extends State<CustomCommentWidget> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      collapsedBackgroundColor: MyColorHelper.primaryBackground,
+      collapsedBackgroundColor: Colors.grey.shade200,
       maintainState: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       visualDensity: VisualDensity.comfortable,
       tilePadding: const EdgeInsets.all(12.0),
       controller: widget.expansionTileController,

@@ -5,17 +5,19 @@ import 'package:nba_trade/controllers/trade_controller.dart';
 import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
-import 'package:nba_trade/helper/dropdown.dart';
 import 'package:nba_trade/helper/text.dart';
-import 'package:nba_trade/helper/toast.dart';
+import 'package:nba_trade/views/trade/widgets/dropdown.dart';
 import 'package:nba_trade/views/trade/widgets/trade_tabbar.dart';
 import 'package:nba_trade/views/trade/widgets/trade_tabbar_view.dart';
+
+import '../../helper/post.dart';
+import '../../helper/toast.dart';
 
 class TradeScreen extends StatelessWidget {
   TradeScreen({super.key});
 
+  final UniversalController controller = Get.find<UniversalController>();
   final TradeController tradeController = Get.put(TradeController());
-  final UniversalController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +39,45 @@ class TradeScreen extends StatelessWidget {
                     flexibleSpace: ListView(
                       children: [
                         const CustomAppBar(title: 'Trade Machine'),
-                        CustomDropdown(
-                          hintText: 'Select Team',
-                          items: controller.teams,
-                          onChanged: (value) {
-                            if (!tradeController.selectedTeams
-                                .contains(value)) {
-                              tradeController.selectedTeams.addNonNull(value!);
-                            } else {
-                              ToastMessage.showToastMessage(
-                                  message:
-                                      '${value?.name} is already selected.',
-                                  backgroundColor: Colors.red);
-                            }
-                            debugPrint(tradeController.selectedTeams.length
-                                as String?);
-                          },
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TeamsDropdown(
+                                teams: controller.teams,
+                                onChange: (value) {
+                                  if (!tradeController.selectedTeams
+                                      .contains(value)) {
+                                    tradeController.selectedTeams
+                                        .addNonNull(value!);
+                                    tradeController.selectedTeamsPlayers
+                                        .addNonNull(controller.players
+                                            .where((player) =>
+                                                player.teamId == value.teamId)
+                                            .toList()
+                                            .obs);
+                                  } else {
+                                    ToastMessage.showToastMessage(
+                                        message:
+                                            '${value?.name} is already selected.',
+                                        backgroundColor: Colors.red);
+                                  }
+                                },
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (builder) => MyPostDialog(
+                                        onPost: (List<dynamic> title,
+                                            List<dynamic> description) {
+                                          tradeController.onPost(
+                                              title, description);
+                                        },
+                                      )),
+                              child: const Text('Post'),
+                            ),
+                            const SizedBox(width: 8.0),
+                          ],
                         ),
                         TradeTabbar(controller: tradeController),
                       ],
@@ -81,8 +106,10 @@ class TradeScreen extends StatelessWidget {
                         for (var i = 0;
                             i < tradeController.selectedTeams.length;
                             i++)
-                          TradeTabbarView(
+                          TradeTabBarView(
                             myTeamModel: tradeController.selectedTeams[i],
+                            myPlayersList:
+                                tradeController.selectedTeamsPlayers[i],
                           )
                       ],
                     ),

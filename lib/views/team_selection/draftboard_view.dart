@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/controllers/team_selection_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
-import 'package:nba_trade/helper/profile_avatar.dart';
 import 'package:nba_trade/helper/text.dart';
-import 'package:nba_trade/views/team_selection/widgets/player_card.dart';
+import 'package:nba_trade/views/team_selection/player_card.dart';
+
+import '../../helper/post.dart';
 
 class Draftboard extends StatelessWidget {
   Draftboard({super.key});
@@ -86,53 +87,28 @@ class Draftboard extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.white,
-          ),
-          child: Row(
-            children: [
-              const ProfileAvatar(),
-              const SizedBox(width: 6.0),
-              Expanded(
-                  child: SizedBox(
-                height: context.height * 0.06,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    label: CustomTextWidget(text: 'Write Draft Board Summary'),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: MyColorHelper.primary)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: MyColorHelper.primary)),
-                    labelStyle: TextStyle(
-                      fontSize: 14.0,
-                      color: MyColorHelper.primary,
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: MyColorHelper.primary,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              )),
-              const SizedBox(width: 6.0),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    color: MyColorHelper.primary,
-                    borderRadius: BorderRadius.circular(8.0)),
-                child: const CustomTextWidget(
-                  text: 'Create Post',
-                  textColor: Colors.white,
-                  fontSize: 12.0,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
+        bottomNavigationBar: InkWell(
+          onTap: () => showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (builder) => MyPostDialog(
+                    onPost: (List<dynamic> title, List<dynamic> description) {
+                      Get.find<TeamSelectionController>()
+                          .onPost(title, description);
+                    },
+                  )),
+          child: Container(
+            margin: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+                color: MyColorHelper.primary,
+                borderRadius: BorderRadius.circular(8.0)),
+            child: const CustomTextWidget(
+              text: 'Create Post',
+              textColor: Colors.white,
+              fontSize: 12.0,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),

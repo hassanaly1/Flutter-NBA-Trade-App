@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/api/api_service.dart';
-import 'package:nba_trade/controllers/trade_controller.dart';
 import 'package:nba_trade/helper/toast.dart';
 import 'package:nba_trade/models/my_team_model.dart';
 import 'package:nba_trade/models/my_player_model.dart';
@@ -36,7 +35,6 @@ class UniversalController extends GetxController {
     isApiDataCalled.value = true;
     debugPrint('All Apis called: ${isApiDataCalled.value}');
     selectedTeamPlayers.assignAll(players);
-    sendDataToTradeController(TradeController());
 
     filteredPlayers.assignAll(players);
     debugPrint('players Length: ${players.length}');
@@ -45,10 +43,6 @@ class UniversalController extends GetxController {
     debugPrint('Total Stats: ${playersStatistics.length}');
     scrollController.addListener(_scrollListener);
     super.onInit();
-  }
-
-  void sendDataToTradeController(TradeController tradeController) {
-    tradeController.setPlayers(players);
   }
 
   // List<MyPlayerModel> myTeamPlayers(MyTeamModel selectedTeam) {
@@ -76,7 +70,6 @@ class UniversalController extends GetxController {
           debugPrint(
               'All Apis called After Internet reconnectivity: ${isApiDataCalled.value}');
           selectedTeamPlayers.assignAll(players);
-          sendDataToTradeController(TradeController());
           scrollController.addListener(_scrollListener);
           debugPrint(
               'players Length After Internet reconnectivity: ${players.length}');

@@ -3,21 +3,19 @@ import 'package:get/get.dart';
 import 'package:nba_trade/models/my_player_model.dart';
 
 class TeamSelectionController extends GetxController {
-  var draftPlayers = <MyPlayerModel>[].obs;
+  final List<String> tabs = ['All', 'PG', 'SG', 'PF', 'SF', 'C'];
+  ScrollController scrollController = ScrollController();
+  final playersLength = 10.obs,
+      draftPlayers = <MyPlayerModel>[].obs,
+      filteredPlayers = <MyPlayerModel>[].obs;
 
-  //Add Players to Draftboard
-  void addPlayersToDraftBoard(MyPlayerModel playerModel) {
-    if (!draftPlayers.contains(playerModel)) {
-      draftPlayers.add(playerModel);
-    } else {
-      draftPlayers.remove(playerModel);
-    }
-    debugPrint('${draftPlayers.length}');
+  void loadPlayers(int i) {}
+
+  void addOrRemovePlayer(MyPlayerModel playerModel) {
+    !draftPlayers.contains(playerModel)
+        ? draftPlayers.add(playerModel)
+        : draftPlayers.remove(playerModel);
   }
 
-  //Remove Players from Draftboard
-  void removePlayersFromDraftBoard(MyPlayerModel playerModel) {
-    draftPlayers.remove(playerModel);
-    debugPrint('${draftPlayers.length}');
-  }
+  void onPost(List<dynamic> title, List<dynamic> description) {}
 }

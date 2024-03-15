@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nba_trade/models/my_player_model.dart';
+import 'package:get/get.dart';
 import 'package:nba_trade/helper/text.dart';
+import 'package:nba_trade/models/my_player_model.dart';
+import 'package:nba_trade/models/my_team_model.dart';
 import 'package:nba_trade/views/trade/trade.dart';
+
+import '../../../controllers/trade_controller.dart';
+import 'dropdown.dart';
 
 class TradePlayerCard extends StatelessWidget {
   final MyPlayerModel playerModel;
-  const TradePlayerCard({
-    super.key,
-    required this.playerModel,
-  });
+  final MyTeamModel myTeamModel;
+  const TradePlayerCard(
+      {super.key, required this.playerModel, required this.myTeamModel});
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +57,21 @@ class TradePlayerCard extends StatelessWidget {
                             '${playerModel.depthChartPosition ?? ""} ${playerModel.height ?? ""}\' ${playerModel.weight ?? ""}" ${playerModel.experience ?? ""} ',
                         textColor: Colors.grey,
                       ),
+                      // SvgPicture.network(
+                      //   myTeamModel.wikipediaLogoUrl.toString(),
+                      //   height: 20,
+                      // ),
                       Row(
                         children: [
                           CustomRichText(
                             heading: 'Team:',
-                            value: '${playerModel.team}' ?? '',
+                            value: '${playerModel.team}',
                             useBlackColor: true,
                           ),
                           const SizedBox(width: 6.0),
                           CustomRichText(
                             heading: 'ID',
-                            value: playerModel.teamId.toString() ?? '',
+                            value: playerModel.teamId.toString(),
                             useBlackColor: true,
                           )
                         ],
@@ -72,9 +81,39 @@ class TradePlayerCard extends StatelessWidget {
                 ),
               ),
               // Icons and Button
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(FontAwesomeIcons.shareFromSquare))
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Icon(Icons.keyboard_arrow_up, color: Colors.black26),
+                    IconButton(
+                      onPressed: () {
+                        TradeController cont = Get.find<TradeController>();
+                        showDialog(
+                            context: context,
+                            builder: (builder) => AlertDialog(
+                                  scrollable: true,
+                                  title: const Text('To Team'),
+                                  content: TeamsDropdown(
+                                    teams: cont.selectedTeams
+                                        .where((e) =>
+                                            e.teamId != playerModel.teamId)
+                                        .toList(),
+                                    onChange: (value) {
+                                      cont.onPlayerTeamChanged(
+                                          playerModel, value);
+                                      Get.back();
+                                    },
+                                  ),
+                                ));
+                      },
+                      icon: const Icon(FontAwesomeIcons.shareFromSquare),
+                    ),
+                    const Icon(Icons.keyboard_arrow_down, color: Colors.black26)
+                  ],
+                ),
+              )
             ],
           ),
         ),

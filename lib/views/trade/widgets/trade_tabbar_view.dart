@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
 import 'package:nba_trade/models/my_player_model.dart';
@@ -9,30 +8,15 @@ import 'package:nba_trade/models/my_team_model.dart';
 import 'package:nba_trade/views/trade/trade.dart';
 import 'package:nba_trade/views/trade/widgets/trade_player_card.dart';
 
-class TradeTabbarView extends StatefulWidget {
+class TradeTabBarView extends StatelessWidget {
   final MyTeamModel myTeamModel;
+  final RxList<MyPlayerModel> myPlayersList;
 
-  const TradeTabbarView({
+  const TradeTabBarView({
     super.key,
     required this.myTeamModel,
+    required this.myPlayersList,
   });
-
-  @override
-  _TradeTabbarViewState createState() => _TradeTabbarViewState();
-}
-
-class _TradeTabbarViewState extends State<TradeTabbarView> {
-  late RxList<MyPlayerModel> myTeamPlayers;
-  final UniversalController controller = Get.find();
-
-  @override
-  void initState() {
-    super.initState();
-    myTeamPlayers = controller.players
-        .where((player) => player.teamId == widget.myTeamModel.teamId)
-        .toList()
-        .obs;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,21 +54,19 @@ class _TradeTabbarViewState extends State<TradeTabbarView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.network(
-                                widget.myTeamModel.wikipediaLogoUrl ?? '',
+                                myTeamModel.wikipediaLogoUrl ?? '',
                                 height: 50,
                               ),
                               const SizedBox(width: 8.0),
                               CustomTextWidget(
-                                text:
-                                    widget.myTeamModel.name ?? 'Not Specified',
+                                text: myTeamModel.name ?? 'Not Specified',
                                 textColor: Colors.white,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w600,
                               ),
                               const SizedBox(width: 8.0),
                               CustomTextWidget(
-                                text: widget.myTeamModel.teamId.toString() ??
-                                    'Not Specified',
+                                text: myTeamModel.teamId.toString(),
                                 textColor: Colors.white,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w600,
@@ -101,31 +83,30 @@ class _TradeTabbarViewState extends State<TradeTabbarView> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CustomRichText(
-                                heading: 'City',
-                                value:
-                                    widget.myTeamModel.city ?? 'Not Specified'),
+                              heading: 'City',
+                              value: myTeamModel.city ?? 'Not Specified',
+                            ),
                             CustomRichText(
-                                heading: 'Conference',
-                                value: widget.myTeamModel.conference ??
-                                    'Not Specified'),
+                              heading: 'Conference',
+                              value: myTeamModel.conference ?? 'Not Specified',
+                            ),
                           ],
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CustomRichText(
-                                heading: 'Division',
-                                value: (widget.myTeamModel.division ??
-                                    'Not Specified')),
+                              heading: 'Division',
+                              value: (myTeamModel.division ?? 'Not Specified'),
+                            ),
                             CustomRichText(
-                                heading: 'Global Team ID',
-                                value: (widget.myTeamModel.globalTeamID
-                                        .toString() ??
-                                    'Not Specified')),
+                              heading: 'Global Team ID',
+                              value: (myTeamModel.globalTeamID.toString()),
+                            ),
                             CustomRichText(
-                                heading: 'Head Coach',
-                                value: widget.myTeamModel.headCoach ??
-                                    'Not Specified'),
+                              heading: 'Head Coach',
+                              value: myTeamModel.headCoach ?? 'Not Specified',
+                            ),
                           ],
                         ),
                       ],
@@ -137,19 +118,20 @@ class _TradeTabbarViewState extends State<TradeTabbarView> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         for (int index = 0;
-                            index < myTeamPlayers.length;
-                            index += 1)
+                            index < myPlayersList.length;
+                            index++)
                           ReorderableDelayedDragStartListener(
-                            key: ValueKey(myTeamPlayers[index].playerId),
+                            key: ValueKey(myPlayersList[index].playerId),
                             index: index,
                             child: TradePlayerCard(
-                              playerModel: myTeamPlayers[index],
+                              playerModel: myPlayersList[index],
+                              myTeamModel: myTeamModel,
                             ),
                           ),
                       ],
                       onReorder: (int oldIndex, int newIndex) {
-                        final player = myTeamPlayers.removeAt(oldIndex);
-                        myTeamPlayers.insert(
+                        final player = myPlayersList.removeAt(oldIndex);
+                        myPlayersList.insert(
                             newIndex > oldIndex ? newIndex - 1 : newIndex,
                             player);
                       },

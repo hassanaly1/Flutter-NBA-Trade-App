@@ -2,7 +2,6 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nba_trade/controllers/team_selection_controller.dart';
-import 'package:nba_trade/controllers/universal_controller.dart';
 import 'package:nba_trade/helper/appbar.dart';
 import 'package:nba_trade/helper/colors.dart';
 import 'package:nba_trade/helper/text.dart';
@@ -18,9 +17,7 @@ class TeamSelection extends StatefulWidget {
 
 class _TeamSelectionState extends State<TeamSelection> {
   final TeamSelectionController teamSelectionController =
-      Get.put(TeamSelectionController(), permanent: true);
-
-  final UniversalController controller = Get.find();
+      Get.put(TeamSelectionController());
 
   @override
   void dispose() {
@@ -53,7 +50,7 @@ class _TeamSelectionState extends State<TeamSelection> {
               body: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Team(players: controller.players),
+                  Team(),
                   Draftboard(),
                 ],
               ),

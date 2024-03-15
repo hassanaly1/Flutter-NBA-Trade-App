@@ -13,6 +13,7 @@ import 'package:nba_trade/views/contracts/contracts.dart';
 import 'package:nba_trade/views/dashboard/widgets/module_card.dart';
 import 'package:nba_trade/views/news/news.dart';
 import 'package:nba_trade/views/post/post_detail.dart';
+import 'package:nba_trade/views/spaces/spaces.dart';
 import 'package:nba_trade/views/team_selection/team_selection.dart';
 import 'package:nba_trade/views/trade/trade.dart';
 
@@ -49,12 +50,12 @@ class DashboardScreen extends StatelessWidget {
     {
       "text": "Spaces",
       "icon": Symbols.public,
-      "onTap": () => Get.to(() => const ChatroomScreen())
+      "onTap": () => Get.to(() => const SpaceScreen())
     },
     {
       "text": "Chatrooms",
       "icon": Symbols.inbox,
-      "onTap": () => Get.to(() => const ChatroomScreen())
+      "onTap": () => Get.to(() => ChatroomScreen())
     },
   ];
 
