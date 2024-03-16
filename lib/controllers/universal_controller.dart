@@ -13,16 +13,9 @@ class UniversalController extends GetxController {
   var isError = false.obs;
   var isApiDataCalled = false.obs;
 
-  var visibleItemCount = 20.obs;
-  ScrollController scrollController = ScrollController();
-
   var players = <MyPlayerModel>[].obs;
-
-  final filteredPlayers = <MyPlayerModel>[].obs;
   var playersStatistics = <PlayerStatsModel>[].obs;
-
   var teams = <MyTeamModel>[].obs;
-  var selectedTeamPlayers = <MyPlayerModel>[].obs;
 
   late StreamSubscription<ConnectivityResult> connectivitySubscription;
 
@@ -34,14 +27,9 @@ class UniversalController extends GetxController {
     await fetchAllPlayersStats();
     isApiDataCalled.value = true;
     debugPrint('All Apis called: ${isApiDataCalled.value}');
-    selectedTeamPlayers.assignAll(players);
-
-    filteredPlayers.assignAll(players);
     debugPrint('players Length: ${players.length}');
-    debugPrint('filteredPlayers: ${filteredPlayers.length}');
     debugPrint('Total Teams length: ${teams.length}');
     debugPrint('Total Stats: ${playersStatistics.length}');
-    scrollController.addListener(_scrollListener);
     super.onInit();
   }
 
@@ -64,17 +52,12 @@ class UniversalController extends GetxController {
               backgroundColor: Colors.green);
           debugPrint('Fetching Apis again After Internet reconnectivity.');
           await fetchPlayerList();
-          filteredPlayers.assignAll(players);
           await fetchAllTeams();
           isApiDataCalled.value = true;
           debugPrint(
               'All Apis called After Internet reconnectivity: ${isApiDataCalled.value}');
-          selectedTeamPlayers.assignAll(players);
-          scrollController.addListener(_scrollListener);
           debugPrint(
               'players Length After Internet reconnectivity: ${players.length}');
-          debugPrint(
-              'filteredPlayers After Internet reconnectivity: ${filteredPlayers.length}');
           debugPrint(
               'Total Teams length After Internet reconnectivity: ${teams.length}');
         }
@@ -138,8 +121,6 @@ class UniversalController extends GetxController {
     }).toList();
 
     debugPrint('Filtered list: $filteredList');
-
-    filteredPlayers.assignAll(filteredList);
   }
 
   //Refreshing the data within the application.
@@ -152,25 +133,8 @@ class UniversalController extends GetxController {
   //   }
   // }
 
-  //Check the User reaches the end of the list.
-  void _scrollListener() {
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      debugPrint('Data loading...');
-      isLoading.value = true;
-      visibleItemCount.value += 20;
-      debugPrint('Data loaded...');
-      Future.delayed(const Duration(seconds: 2), () {
-        isLoading.value = false;
-      });
-
-      debugPrint('Data loaded end...');
-    }
-  }
-
   @override
   void onClose() {
-    scrollController.dispose();
     connectivitySubscription.cancel();
     super.onClose();
   }

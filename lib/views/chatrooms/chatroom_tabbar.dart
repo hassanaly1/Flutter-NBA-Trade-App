@@ -11,37 +11,37 @@ class ChatroomTabbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: const BoxDecoration(
-        color: MyColorHelper.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.0),
-          topRight: Radius.circular(16.0),
+          color: MyColorHelper.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          )),
+      child: Center(
+        child: ButtonsTabBar(
+          physics: const NeverScrollableScrollPhysics(),
+          backgroundColor: const Color(0xffA8A8FF),
+          unselectedBackgroundColor: Colors.grey.shade300,
+          tabs: [
+            _buildTab(context: context, title: 'Public Chatrooms'),
+            _buildTab(context: context, title: 'Inbox')
+          ],
         ),
-      ),
-      child: ButtonsTabBar(
-        backgroundColor: MyColorHelper.primary,
-        unselectedBackgroundColor: Colors.transparent,
-        unselectedLabelStyle: const TextStyle(color: Colors.white),
-        labelStyle:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        tabs: [
-          buildTab(title: 'Public Chatrooms', context: context),
-          buildTab(title: 'Inbox', context: context),
-        ],
       ),
     );
   }
 
-  Tab buildTab({required BuildContext context, required String title}) {
+  Tab _buildTab({required BuildContext context, required String title}) {
     return Tab(
       child: SizedBox(
-        width: context.width * 0.5,
+        width: context.width * 0.4,
         child: CustomTextWidget(
           text: title,
-          fontSize: 14.0,
+          fontSize: 16.0,
           textAlign: TextAlign.center,
           fontWeight: FontWeight.w500,
+          textColor: Colors.black,
         ),
       ),
     );
